@@ -35,7 +35,7 @@ export const SUBMISSIONS = [
 ];
 
 export const LEADERBOARD = [
-  { rank: 1, name: "Aryan Sharma", handle: "aryan_s", score: 4820, solved: 156, streak: 42, color: "#7c6dfa" },
+  { rank: 1, name: "Siva Devireddy", handle: "siva_devireddy", score: 4820, solved: 156, streak: 42, color: "#7c6dfa" },
   { rank: 2, name: "Priya Nair", handle: "priya_n", score: 4610, solved: 149, streak: 35, color: "#3fb950" },
   { rank: 3, name: "Rishi Kapoor", handle: "rishiK", score: 4390, solved: 138, streak: 28, color: "#d29922" },
   { rank: 4, name: "Meera Iyer", handle: "meera_i", score: 4120, solved: 132, streak: 21, color: "#58a6ff" },

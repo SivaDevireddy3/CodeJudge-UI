@@ -25,9 +25,9 @@ export default function ProfilePage() {
         <div className="d-flex align-items-center gap-3 flex-wrap gap-y-2">
           <div className="profile-avatar">A</div>
           <div className="flex-grow-1">
-            <h5 className="fw-bold mb-0" style={{ letterSpacing: '-0.3px' }}>Aryan Sharma</h5>
+            <h5 className="fw-bold mb-0" style={{ letterSpacing: '-0.3px' }}>Siva Devireddy</h5>
             <div style={{ fontSize: '0.82rem', color: 'var(--cj-muted)', marginTop: 2 }}>
-              @aryan_s · Member since Jan 2024
+              @siva_devireddy · Member since Jan 2024
             </div>
             <div className="d-flex gap-2 mt-2 flex-wrap">
               <span className="cj-badge badge-ac">

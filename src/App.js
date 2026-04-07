@@ -1,5 +1,8 @@
 // src/App.js
 import React, { useState } from 'react';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import 'bootstrap-icons/font/bootstrap-icons.css';
+import './index.css';
 import { AuthProvider, useAuth } from './context/AuthContext';
 import { useToast } from './hooks/useToast';
 import Navbar from './components/Navbar';
@@ -19,39 +22,53 @@ function AppInner() {
   const { toast, toasts, dismiss } = useToast();
   const { isAdmin } = useAuth();
 
-  const navigate = p => {
+  const navigate = (p) => {
     setPage(p);
     if (p !== 'editor') setActiveProblem(null);
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  const openProblem = problem => {
+  const openProblem = (problem) => {
     setActiveProblem(problem);
     setPage('editor');
     window.scrollTo({ top: 0 });
   };
+
+  const showNavbar = page !== 'editor';
 
   return (
     <>
       <Navbar
         page={page === 'editor' ? 'problems' : page}
         onNavigate={navigate}
+      // Always show navbar — editor has its own back button
       />
       <main style={{ flex: 1 }}>
         {page === 'home' && <HomePage onNavigate={navigate} />}
         {page === 'problems' && <ProblemsPage onOpenProblem={openProblem} />}
-        {page === 'editor' && <EditorPage problem={activeProblem} onBack={() => navigate('problems')} toast={toast} />}
+        {page === 'editor' && (
+          <EditorPage
+            problem={activeProblem}
+            onBack={() => navigate('problems')}
+            toast={toast}
+          />
+        )}
         {page === 'submissions' && <SubmissionsPage />}
         {page === 'leaderboard' && <LeaderboardPage />}
         {page === 'profile' && <ProfilePage />}
         {page === 'admin' && isAdmin && <AdminPage toast={toast} />}
         {page === 'admin' && !isAdmin && (
-          <div className="d-flex align-items-center justify-content-center" style={{ minHeight: 'calc(100vh - 56px)' }}>
+          <div
+            className="d-flex align-items-center justify-content-center"
+            style={{ minHeight: 'calc(100vh - 58px)' }}
+          >
             <div className="text-center p-4">
-              <i className="bi bi-shield-x" style={{ fontSize: 48, color: 'var(--cj-red)' }}></i>
+              <i className="bi bi-shield-x" style={{ fontSize: 52, color: 'var(--cj-red)' }} />
               <h5 className="mt-3 fw-bold">Access Denied</h5>
-              <p style={{ color: 'var(--cj-muted)' }}>Admin role required.</p>
-              <button className="btn btn-outline-cj" onClick={() => navigate('login')}>Sign In as Admin</button>
+              <p style={{ color: 'var(--cj-muted)' }}>Admin role required to view this page.</p>
+              <button className="btn btn-outline-cj" onClick={() => navigate('login')}>
+                Sign In as Admin
+              </button>
             </div>
           </div>
         )}

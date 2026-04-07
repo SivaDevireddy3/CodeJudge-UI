@@ -7,14 +7,6 @@ const stats = [
   { n: '99.9%', l: 'Uptime' },
 ];
 
-const features = [
-  { icon: 'bi-docker', label: 'Docker sandbox', color: 'var(--cj-blue)' },
-  { icon: 'bi-code-slash', label: '12 languages', color: 'var(--cj-brand)' },
-  { icon: 'bi-shield-check', label: 'JWT Auth', color: 'var(--cj-green)' },
-  { icon: 'bi-lightning-fill', label: 'Real-time judge', color: 'var(--cj-amber)' },
-  { icon: 'bi-eye-slash', label: 'Hidden test cases', color: 'var(--cj-red)' },
-];
-
 export default function HomePage({ onNavigate }) {
   return (
     <div className="cj-hero">
@@ -22,11 +14,6 @@ export default function HomePage({ onNavigate }) {
       <div className="container position-relative z-1">
         <div className="row justify-content-center text-center">
           <div className="col-lg-9 col-xl-8">
-
-            <div className="hero-pill mb-4 d-inline-flex">
-              <div className="hero-dot" />
-              Spring Boot · React · PostgreSQL · Docker
-            </div>
 
             <h1 className="hero-h1 mb-4">
               Code. Submit.<br />
@@ -45,17 +32,6 @@ export default function HomePage({ onNavigate }) {
               <button className="btn btn-outline-secondary btn-lg px-4" onClick={() => onNavigate('leaderboard')}>
                 <i className="bi bi-trophy me-2"></i>Leaderboard
               </button>
-            </div>
-
-            {/* Feature chips */}
-            <div className="d-flex gap-2 justify-content-center flex-wrap mb-5">
-              {features.map(f => (
-                <div key={f.label} className="d-flex align-items-center gap-2 px-3 py-1 rounded-pill"
-                  style={{ background: 'var(--cj-bg-card)', border: '1px solid var(--cj-border)', fontSize: '0.8rem', color: 'var(--cj-muted)' }}>
-                  <i className={`bi ${f.icon}`} style={{ color: f.color }}></i>
-                  {f.label}
-                </div>
-              ))}
             </div>
 
             {/* Stats */}
