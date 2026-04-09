@@ -1,4 +1,3 @@
-// src/components/Navbar.js
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../context/AuthContext';
 
@@ -18,7 +17,6 @@ export default function Navbar({ page, onNavigate }) {
 
   const go = (id) => { onNavigate(id); setOpen(false); };
 
-  // Close on outside click
   useEffect(() => {
     if (!open) return;
     const handler = (e) => {
@@ -28,7 +26,6 @@ export default function Navbar({ page, onNavigate }) {
     return () => document.removeEventListener('mousedown', handler);
   }, [open]);
 
-  // Close on ESC
   useEffect(() => {
     const handler = (e) => { if (e.key === 'Escape') setOpen(false); };
     document.addEventListener('keydown', handler);
@@ -38,7 +35,6 @@ export default function Navbar({ page, onNavigate }) {
   return (
     <nav className="navbar navbar-expand-lg cj-navbar" ref={navRef}>
       <div className="container-fluid px-3 px-md-4 d-flex align-items-center">
-        {/* Brand */}
         <button
           className="navbar-brand btn p-0 border-0 d-flex align-items-center gap-2"
           onClick={() => go('home')}
@@ -50,7 +46,6 @@ export default function Navbar({ page, onNavigate }) {
           </span>
         </button>
 
-        {/* Desktop nav links */}
         <div className="d-none d-lg-flex align-items-center gap-1 ms-4">
           {links.map((l) => (
             <button
@@ -64,7 +59,6 @@ export default function Navbar({ page, onNavigate }) {
           ))}
         </div>
 
-        {/* Right side — desktop */}
         <div className="d-none d-lg-flex align-items-center gap-2 ms-auto">
           {isLoggedIn ? (
             <>
@@ -107,7 +101,6 @@ export default function Navbar({ page, onNavigate }) {
           )}
         </div>
 
-        {/* Mobile: right side compact + toggler */}
         <div className="d-flex d-lg-none align-items-center gap-2 ms-auto">
           {isLoggedIn && (
             <div className="cj-nav-avatar" onClick={() => go('profile')} style={{ cursor: 'pointer' }}>
@@ -126,7 +119,6 @@ export default function Navbar({ page, onNavigate }) {
         </div>
       </div>
 
-      {/* Mobile dropdown */}
       {open && (
         <div className="d-lg-none">
           <div

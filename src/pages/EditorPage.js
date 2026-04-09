@@ -1,4 +1,3 @@
-// src/pages/EditorPage.js
 import React, { useState } from 'react';
 import { DiffBadge, TopicTag } from '../components/UI';
 import ProblemPanel from '../components/ProblemPanel';
@@ -7,7 +6,6 @@ import { submissionAPI, getErrorMessage } from '../services/api';
 import { useAuth } from '../context/AuthContext';
 import { STARTER_CODE } from '../data/mockData';
 
-// Language enum values the backend expects
 const LANG_MAP = {
   java: 'JAVA',
   python: 'PYTHON',
@@ -35,8 +33,6 @@ export default function EditorPage({ problem, onBack, toast, onNavigate }) {
     setResults(null);
   };
 
-  // "Run" uses the same submit endpoint — backend judges against all test cases.
-  // We show a lightweight "running" UX here and display the result.
   const handleRun = async () => {
     if (!isLoggedIn) {
       toast.error('Please sign in to run code.');
@@ -59,7 +55,6 @@ export default function EditorPage({ problem, onBack, toast, onNavigate }) {
       });
 
       const s = res.data;
-      // Display result as a single row in the console
       setResults([
         {
           tc: 'Run result',
@@ -106,7 +101,6 @@ export default function EditorPage({ problem, onBack, toast, onNavigate }) {
 
       const s = res.data;
 
-      // Show a result row per test case if failedTestCase is available
       const rows = [];
       const total = s.failedTestCase || 1;
       for (let i = 1; i <= (s.failedTestCase || 1); i++) {
@@ -139,7 +133,6 @@ export default function EditorPage({ problem, onBack, toast, onNavigate }) {
 
   return (
     <div className="editor-root">
-      {/* Top bar */}
       <div className="editor-topbar">
         <button className="btn btn-outline-cj btn-sm py-0" onClick={onBack}>
           <i className="bi bi-arrow-left me-1" />Problems
@@ -157,7 +150,6 @@ export default function EditorPage({ problem, onBack, toast, onNavigate }) {
         </div>
       </div>
 
-      {/* Split layout */}
       <div className="editor-split">
         <ProblemPanel problem={p} />
         <CodePanel

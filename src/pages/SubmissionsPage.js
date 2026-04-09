@@ -1,4 +1,3 @@
-// src/pages/SubmissionsPage.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { VerdictBadge, PageHeader, EmptyState, Spinner } from '../components/UI';
 import { submissionAPI, getErrorMessage } from '../services/api';
@@ -36,7 +35,6 @@ export default function SubmissionsPage({ onOpenProblem }) {
     try {
       const res = await submissionAPI.getMine(page, PAGE_SIZE);
       const data = res.data;
-      // Backend returns Page<SubmissionResponse>: { content, totalElements }
       setSubmissions(data.content || data || []);
       setTotal(data.totalElements || (data.content || data || []).length);
     } catch (err) {
@@ -72,7 +70,6 @@ export default function SubmissionsPage({ onOpenProblem }) {
         </div>
       ) : (
         <>
-          {/* Filter chips */}
           <div className="d-flex gap-2 mb-3 flex-wrap">
             {VERDICT_OPTS.map((v) => (
               <button
@@ -89,7 +86,6 @@ export default function SubmissionsPage({ onOpenProblem }) {
             </button>
           </div>
 
-          {/* Error */}
           {error && (
             <div className="cj-card p-3 mb-3 d-flex align-items-center gap-2" style={{ border: '1px solid rgba(240,80,96,.3)' }}>
               <i className="bi bi-exclamation-triangle-fill" style={{ color: 'var(--cj-red)' }} />
@@ -168,7 +164,6 @@ export default function SubmissionsPage({ onOpenProblem }) {
             )}
           </div>
 
-          {/* Pagination */}
           {!loading && total > PAGE_SIZE && (
             <div className="d-flex justify-content-center align-items-center gap-2 mt-3">
               <button className="btn btn-outline-cj btn-sm" disabled={page === 0} onClick={() => setPage((p) => p - 1)}>

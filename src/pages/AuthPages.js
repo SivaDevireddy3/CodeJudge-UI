@@ -1,10 +1,8 @@
-// src/pages/AuthPages.js
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { Spinner } from '../components/UI';
 import { authAPI, getErrorMessage } from '../services/api';
 
-/* ── Login Page ─────────────────────────────────────────────── */
 export function LoginPage({ onNavigate, toast }) {
   const { login } = useAuth();
   const [form, setForm] = useState({ username: '', password: '' });
@@ -21,7 +19,7 @@ export function LoginPage({ onNavigate, toast }) {
     setLoading(true);
     try {
       const res = await authAPI.login({ username: form.username.trim(), password: form.password });
-      const data = res.data; // AuthResponse: { token, tokenType, userId, username, email, role, displayName }
+      const data = res.data;
       login(data.token, {
         id: data.userId,
         username: data.username,
@@ -108,7 +106,6 @@ export function LoginPage({ onNavigate, toast }) {
   );
 }
 
-/* ── Register Page ──────────────────────────────────────────── */
 export function RegisterPage({ onNavigate, toast }) {
   const { login } = useAuth();
   const [form, setForm] = useState({ username: '', email: '', password: '', confirm: '' });

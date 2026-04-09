@@ -1,4 +1,3 @@
-// src/components/Console.js
 import React, { useState } from 'react';
 import { VerdictBadge, Spinner } from './UI';
 
@@ -14,7 +13,6 @@ export default function Console({ results, running, submitting }) {
           <i className="bi bi-terminal me-2" />Console
         </span>
 
-        {/* Status indicator */}
         {(running || submitting) && (
           <span
             style={{ fontSize: '0.75rem', color: 'var(--cj-muted)', display: 'flex', alignItems: 'center', gap: 6 }}
@@ -24,7 +22,6 @@ export default function Console({ results, running, submitting }) {
           </span>
         )}
 
-        {/* Result summary badge */}
         {results && !running && !submitting && (
           <span style={{ fontSize: '0.72rem', color: 'var(--cj-muted)' }}>
             {results.filter((r) => r.verdict === 'AC').length}/{results.length} passed
@@ -70,7 +67,6 @@ export default function Console({ results, running, submitting }) {
             </div>
           ))}
 
-          {/* Show error message if present in results */}
           {results && results.some((r) => r.errorMessage) && (
             <div
               className="mt-1 p-2 rounded-2"

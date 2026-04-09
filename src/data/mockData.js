@@ -1,7 +1,3 @@
-// src/data/mockData.js
-// All problem/submission/leaderboard data now comes from the real backend API.
-// Only starter code templates remain here.
-
 export const STARTER_CODE = {
     java: `class Solution {
     public int[] twoSum(int[] nums, int target) {

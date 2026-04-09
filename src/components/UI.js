@@ -1,7 +1,5 @@
-// src/components/UI.js
 import React from 'react';
 
-// ── Difficulty Badge ──────────────────────────────────────────
 export function DiffBadge({ diff }) {
   const map = {
     easy: { cls: 'easy', label: 'Easy', dot: 'var(--cj-green)' },
@@ -22,7 +20,6 @@ export function DiffBadge({ diff }) {
   );
 }
 
-// ── Verdict Badge ─────────────────────────────────────────────
 export function VerdictBadge({ verdict }) {
   const map = {
     AC: { cls: 'ac', icon: 'bi-check-circle-fill', label: 'Accepted' },
@@ -41,7 +38,6 @@ export function VerdictBadge({ verdict }) {
   );
 }
 
-// ── Topic Tag ─────────────────────────────────────────────────
 export function TopicTag({ tag }) {
   if (!tag) return null;
   return (
@@ -51,12 +47,10 @@ export function TopicTag({ tag }) {
   );
 }
 
-// ── Spinner ───────────────────────────────────────────────────
 export function Spinner({ className = '' }) {
   return <span className={`cj-spinner ${className}`} role="status" aria-label="Loading" />;
 }
 
-// ── Empty State ───────────────────────────────────────────────
 export function EmptyState({ icon = 'bi-inbox', message = 'Nothing here yet.', action }) {
   return (
     <div className="text-center py-5">
@@ -68,8 +62,6 @@ export function EmptyState({ icon = 'bi-inbox', message = 'Nothing here yet.', a
     </div>
   );
 }
-
-// ── Toast Container ───────────────────────────────────────────
 export function ToastContainer({ toasts, onDismiss }) {
   const iconMap = {
     success: { icon: 'bi-check-circle-fill', color: 'var(--cj-green)' },
@@ -93,7 +85,6 @@ export function ToastContainer({ toasts, onDismiss }) {
   );
 }
 
-// ── Stat Card ─────────────────────────────────────────────────
 export function StatCard({ label, value, sub, color = 'var(--cj-brand)', icon }) {
   return (
     <div className="cj-card p-3 h-100">
@@ -122,7 +113,6 @@ export function StatCard({ label, value, sub, color = 'var(--cj-brand)', icon })
   );
 }
 
-// ── Page Header ───────────────────────────────────────────────
 export function PageHeader({ title, subtitle, action }) {
   return (
     <div className="d-flex align-items-start justify-content-between mb-4 flex-wrap gap-2">
@@ -138,8 +128,6 @@ export function PageHeader({ title, subtitle, action }) {
     </div>
   );
 }
-
-// ── Progress Bar ──────────────────────────────────────────────
 export function ProgressBar({ pct, color }) {
   return (
     <div className="cj-progress">
@@ -151,7 +139,6 @@ export function ProgressBar({ pct, color }) {
   );
 }
 
-// ── Section Divider ───────────────────────────────────────────
 export function SectionDivider({ label }) {
   return (
     <div

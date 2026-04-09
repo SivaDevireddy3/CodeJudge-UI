@@ -1,13 +1,6 @@
-/* ============================================================
-   CodeJudge — Global Styles (Production-Ready)
-   Font: JetBrains Mono (code) + Outfit (UI)
-   Theme: Deep space dark with electric indigo accents
-   ============================================================ */
-
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap");
 
 :root {
-  /* Core palette */
   --cj-bg: #080c14;
   --cj-bg-card: #0e1420;
   --cj-bg-input: #141c2e;
@@ -15,18 +8,15 @@
   --cj-border: #1e2a3a;
   --cj-border-soft: #162030;
 
-  /* Text */
   --cj-text: #e8eef8;
   --cj-text-dim: #a8b8cc;
   --cj-muted: #5a7494;
 
-  /* Brand */
   --cj-brand: #4f6ef7;
   --cj-brand-rgb: 79, 110, 247;
   --cj-brand-light: #7b95fa;
   --cj-brand-dim: rgba(79, 110, 247, 0.12);
 
-  /* Semantic */
   --cj-green: #22d3a0;
   --cj-green-dim: rgba(34, 211, 160, 0.12);
   --cj-red: #f05060;
@@ -36,17 +26,14 @@
   --cj-blue: #38bdf8;
   --cj-purple: #c084fc;
 
-  /* UI */
   --cj-radius: 10px;
   --cj-radius-lg: 14px;
   --cj-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
   --cj-shadow-brand: 0 0 20px rgba(79, 110, 247, 0.25);
 
-  /* Navbar */
   --nav-height: 58px;
 }
 
-/* ── Reset ── */
 *,
 *::before,
 *::after {
@@ -78,7 +65,6 @@ body {
   min-height: 100vh;
 }
 
-/* ── Scrollbar ── */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -94,9 +80,6 @@ body {
   background: var(--cj-muted);
 }
 
-/* ============================================================
-   NAVBAR
-   ============================================================ */
 .cj-navbar {
   background: rgba(8, 12, 20, 0.92) !important;
   backdrop-filter: blur(16px) saturate(180%);
@@ -165,7 +148,6 @@ body {
   background: rgba(79, 110, 247, 0.12);
 }
 
-/* Mobile navbar collapse */
 .cj-navbar .navbar-toggler {
   border: 1px solid var(--cj-border) !important;
   border-radius: 8px;
@@ -200,7 +182,6 @@ body {
   }
 }
 
-/* ── Nav user avatar ── */
 .cj-nav-user {
   display: flex;
   align-items: center;
@@ -231,9 +212,6 @@ body {
   flex-shrink: 0;
 }
 
-/* ============================================================
-   CARDS
-   ============================================================ */
 .cj-card {
   background: var(--cj-bg-card);
   border: 1px solid var(--cj-border);
@@ -250,9 +228,6 @@ body {
   gap: 8px;
 }
 
-/* ============================================================
-   BUTTONS
-   ============================================================ */
 .btn-brand {
   background: var(--cj-brand);
   border: none;
@@ -295,9 +270,6 @@ body {
   border-color: rgba(255, 255, 255, 0.18);
 }
 
-/* ============================================================
-   FORM ELEMENTS
-   ============================================================ */
 .cj-input {
   background: var(--cj-bg-input) !important;
   border: 1px solid var(--cj-border) !important;
@@ -337,9 +309,6 @@ select.cj-input option {
   color: var(--cj-muted) !important;
 }
 
-/* ============================================================
-   BADGES
-   ============================================================ */
 .cj-badge {
   display: inline-flex;
   align-items: center;
@@ -393,7 +362,6 @@ select.cj-input option {
   border: 1px solid var(--cj-border);
 }
 
-/* ── Topic tags ── */
 .tag-pill {
   padding: 2px 10px;
   border-radius: 6px;
@@ -437,9 +405,6 @@ select.cj-input option {
   border: 1px solid rgba(192, 132, 252, 0.2);
 }
 
-/* ============================================================
-   TABLE
-   ============================================================ */
 .cj-table {
   border-collapse: collapse;
   width: 100%;
@@ -473,9 +438,6 @@ select.cj-input option {
   border-bottom: none;
 }
 
-/* ============================================================
-   EDITOR LAYOUT
-   ============================================================ */
 .editor-root {
   display: flex;
   flex-direction: column;
@@ -502,7 +464,6 @@ select.cj-input option {
   min-height: 0;
 }
 
-/* Problem panel */
 .prob-panel {
   display: flex;
   flex-direction: column;
@@ -554,7 +515,6 @@ select.cj-input option {
   padding: 20px 18px;
 }
 
-/* Code panel */
 .code-panel {
   display: flex;
   flex-direction: column;
@@ -598,7 +558,6 @@ select.cj-input option {
   outline: none;
 }
 
-/* Code textarea */
 .code-area-wrap {
   flex: 1;
   overflow: hidden;
@@ -624,7 +583,6 @@ select.cj-input option {
   box-shadow: none !important;
 }
 
-/* Console */
 .cj-console {
   border-top: 1px solid var(--cj-border);
   background: var(--cj-bg-card);
@@ -684,7 +642,6 @@ select.cj-input option {
   white-space: nowrap;
 }
 
-/* Submit bar */
 .submit-bar {
   background: var(--cj-bg-card);
   border-top: 1px solid var(--cj-border);
@@ -695,9 +652,6 @@ select.cj-input option {
   flex-shrink: 0;
 }
 
-/* ============================================================
-   HERO PAGE
-   ============================================================ */
 .cj-hero {
   background: var(--cj-bg);
   min-height: calc(100vh - var(--nav-height));
@@ -827,7 +781,6 @@ select.cj-input option {
   font-weight: 500;
 }
 
-/* Feature chip */
 .feature-chip {
   display: flex;
   align-items: center;
@@ -845,9 +798,6 @@ select.cj-input option {
   color: var(--cj-text);
 }
 
-/* ============================================================
-   PROFILE
-   ============================================================ */
 .profile-header-card {
   background: var(--cj-bg-card);
   border: 1px solid var(--cj-border);
@@ -880,9 +830,6 @@ select.cj-input option {
   box-shadow: 0 4px 16px rgba(79, 110, 247, 0.35);
 }
 
-/* ============================================================
-   PROGRESS BAR
-   ============================================================ */
 .cj-progress {
   background: var(--cj-bg-input);
   border-radius: 99px;
@@ -896,9 +843,6 @@ select.cj-input option {
   transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* ============================================================
-   LEADERBOARD
-   ============================================================ */
 .lb-row-1 {
   background: rgba(79, 110, 247, 0.06) !important;
 }
@@ -918,9 +862,6 @@ select.cj-input option {
   color: var(--cj-muted);
 }
 
-/* ============================================================
-   ADMIN
-   ============================================================ */
 .hidden-section {
   background: rgba(240, 80, 96, 0.04);
   border: 1px solid rgba(240, 80, 96, 0.15);
@@ -928,9 +869,6 @@ select.cj-input option {
   padding: 16px;
 }
 
-/* ============================================================
-   MISC UTILITIES
-   ============================================================ */
 .cj-spinner {
   width: 14px;
   height: 14px;
@@ -954,7 +892,6 @@ select.cj-input option {
   flex-shrink: 0;
 }
 
-/* ── Toast ── */
 .cj-toast-container {
   position: fixed;
   bottom: 20px;
@@ -992,7 +929,6 @@ select.cj-input option {
   }
 }
 
-/* ── Page header ── */
 .page-header-title {
   font-size: clamp(1.3rem, 3vw, 1.75rem);
   font-weight: 800;
@@ -1000,7 +936,6 @@ select.cj-input option {
   line-height: 1.1;
 }
 
-/* ── Kbd hint ── */
 .kbd-hint {
   background: rgba(255, 255, 255, 0.06);
   padding: 2px 7px;
@@ -1012,11 +947,6 @@ select.cj-input option {
   white-space: nowrap;
 }
 
-/* ============================================================
-   RESPONSIVE BREAKPOINTS
-   ============================================================ */
-
-/* Tablet: ≤ 1024px */
 @media (max-width: 1024px) {
   .editor-split {
     grid-template-columns: 1fr;
@@ -1042,7 +972,6 @@ select.cj-input option {
   }
 }
 
-/* Mobile: ≤ 768px */
 @media (max-width: 768px) {
   :root {
     --nav-height: 56px;
@@ -1087,7 +1016,6 @@ select.cj-input option {
   }
 }
 
-/* Small mobile: ≤ 480px */
 @media (max-width: 480px) {
   .hide-xs {
     display: none !important;

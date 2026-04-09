@@ -1,4 +1,3 @@
-// src/pages/LeaderboardPage.js
 import React, { useState, useEffect } from 'react';
 import { PageHeader, Spinner, EmptyState } from '../components/UI';
 import { leaderboardAPI, getErrorMessage } from '../services/api';

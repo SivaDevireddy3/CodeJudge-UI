@@ -1,4 +1,3 @@
-// src/pages/ProfilePage.js
 import React, { useState, useEffect } from 'react';
 import { VerdictBadge, StatCard, PageHeader, Spinner } from '../components/UI';
 import { submissionAPI, getErrorMessage } from '../services/api';
@@ -51,12 +50,9 @@ export default function ProfilePage({ onNavigate }) {
   const ac = submissions.filter((s) => s.verdict === 'AC').length;
   const accRate = submissions.length > 0 ? Math.round((ac / submissions.length) * 100) : 0;
 
-  // Count unique solved problems
   const solvedIds = new Set(submissions.filter((s) => s.verdict === 'AC').map((s) => s.problemId));
   const solved = solvedIds.size;
 
-  // Difficulty breakdown from submissions (approximate — we know verdict + problem)
-  // We can't know exact difficulty unless stored in submission. Show by language instead.
   const byLang = submissions.reduce((acc, s) => {
     acc[s.language] = (acc[s.language] || 0) + 1;
     return acc;
@@ -68,7 +64,6 @@ export default function ProfilePage({ onNavigate }) {
     <div className="container-fluid px-3 px-md-4 py-4">
       <PageHeader title="Profile" subtitle="Your coding journey" />
 
-      {/* Profile header card */}
       <div className="profile-header-card mb-4">
         <div className="d-flex align-items-start gap-3 flex-wrap">
           <div className="profile-avatar">{avatarLetter}</div>
@@ -94,7 +89,6 @@ export default function ProfilePage({ onNavigate }) {
         </div>
       </div>
 
-      {/* Stats grid */}
       <div className="row g-3 mb-4">
         {[
           { label: 'Problems Solved', value: solved, sub: 'unique problems', color: 'var(--cj-brand)', icon: 'bi-check2-circle' },
@@ -108,7 +102,6 @@ export default function ProfilePage({ onNavigate }) {
         ))}
       </div>
 
-      {/* Language breakdown */}
       {Object.keys(byLang).length > 0 && (
         <div className="cj-card p-3 mb-4">
           <h6 className="fw-semibold mb-3">Submissions by Language</h6>
@@ -124,7 +117,6 @@ export default function ProfilePage({ onNavigate }) {
         </div>
       )}
 
-      {/* Recent submissions */}
       <h6 className="fw-semibold mb-3">Recent Submissions</h6>
 
       {loading && (

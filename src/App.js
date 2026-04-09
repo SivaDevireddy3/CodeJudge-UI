@@ -1,4 +1,3 @@
-// src/App.js
 import React, { useState, useEffect } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 'bootstrap-icons/font/bootstrap-icons.css';
@@ -28,10 +27,10 @@ function AppInner() {
         window.scrollTo({ top: 0, behavior: 'smooth' });
     };
 
-    // Register navigate fn with AuthContext so the 401 interceptor can redirect
+
     useEffect(() => {
         registerNavigate(navigate);
-    }, []); // eslint-disable-line react-hooks/exhaustive-deps
+    }, []);
 
     const openProblem = (problem) => {
         setActiveProblem(problem);

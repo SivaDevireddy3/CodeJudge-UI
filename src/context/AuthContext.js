@@ -1,4 +1,3 @@
-// src/context/AuthContext.js
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
 
 const AuthContext = createContext(null);
@@ -6,24 +5,20 @@ const AuthContext = createContext(null);
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-  // navigateFn is set by AppInner so context can redirect on 401
   const [navigateFn, setNavigateFn] = useState(null);
 
-  // Hydrate from localStorage on mount
   useEffect(() => {
     const token = localStorage.getItem('cj_token');
     const saved = localStorage.getItem('cj_user');
     if (token && saved) {
       try {
         const parsed = JSON.parse(saved);
-        // Basic expiry check via JWT payload (no library needed)
         const parts = token.split('.');
         if (parts.length === 3) {
           const payload = JSON.parse(atob(parts[1]));
           if (payload.exp && payload.exp * 1000 > Date.now()) {
             setUser(parsed);
           } else {
-            // Token expired — clear storage
             localStorage.removeItem('cj_token');
             localStorage.removeItem('cj_user');
           }
@@ -38,7 +33,6 @@ export function AuthProvider({ children }) {
     setLoading(false);
   }, []);
 
-  // Listen for 401 events from api.js interceptor
   useEffect(() => {
     const handler = () => {
       setUser(null);
@@ -62,7 +56,6 @@ export function AuthProvider({ children }) {
   }, [navigateFn]);
 
   const registerNavigate = useCallback((fn) => {
-    // Wrap in function so useState doesn't call fn as an initializer
     setNavigateFn(() => fn);
   }, []);
 

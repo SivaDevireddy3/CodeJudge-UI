@@ -1,4 +1,3 @@
-// src/pages/AdminPage.js
 import React, { useState, useEffect } from 'react';
 import { PageHeader, Spinner } from '../components/UI';
 import { problemAPI, getErrorMessage } from '../services/api';
@@ -6,7 +5,6 @@ import { problemAPI, getErrorMessage } from '../services/api';
 const BLANK = {
   title: '', difficulty: 'EASY', topic: 'array', description: '', constraints: '',
   timeLimitMs: 2000, memoryLimitMb: 256, points: 100,
-  // test cases built separately
   sampleInput: '', sampleOutput: '',
   hiddenInput: '', hiddenOutput: '',
 };
@@ -17,7 +15,6 @@ export default function AdminPage({ toast }) {
   const [stats, setStats] = useState(null);
   const [statsLoading, setStatsLoading] = useState(true);
 
-  // Load problem stats from backend
   useEffect(() => {
     problemAPI.getAll({ page: 0, size: 1 })
       .then((res) => {
@@ -38,10 +35,8 @@ export default function AdminPage({ toast }) {
       return;
     }
 
-    // Build the CreateProblemRequest the backend expects
     const testCases = [];
 
-    // Sample test case(s) — visible to users
     form.sampleInput.split('---').forEach((inp, i) => {
       const out = (form.sampleOutput.split('---')[i] || '').trim();
       if (inp.trim()) {
@@ -49,7 +44,6 @@ export default function AdminPage({ toast }) {
       }
     });
 
-    // Hidden test case(s)
     if (form.hiddenInput.trim()) {
       form.hiddenInput.split('---').forEach((inp, i) => {
         const out = (form.hiddenOutput.split('---')[i] || '').trim();
@@ -76,7 +70,6 @@ export default function AdminPage({ toast }) {
       await problemAPI.create(payload);
       toast.success(`✓ Problem "${form.title}" created successfully!`);
       setForm(BLANK);
-      // Refresh stats
       problemAPI.getAll({ page: 0, size: 1 }).then((res) =>
         setStats({ total: res.data.totalElements || 0 })
       );
@@ -100,7 +93,6 @@ export default function AdminPage({ toast }) {
       />
 
       <div className="row g-4">
-        {/* ── Create Problem Form ── */}
         <div className="col-12 col-lg-8">
           <div className="cj-card overflow-hidden">
             <div className="cj-card-header">
@@ -110,13 +102,11 @@ export default function AdminPage({ toast }) {
             <form onSubmit={handleSubmit} className="p-3 p-md-4" noValidate>
               <div className="row g-3">
 
-                {/* Title */}
                 <div className="col-12">
                   <label className="cj-label">Problem Title *</label>
                   <input className="cj-input form-control" placeholder="e.g. Two Sum" value={form.title} onChange={set('title')} />
                 </div>
 
-                {/* Difficulty + Topic */}
                 <div className="col-12 col-sm-6">
                   <label className="cj-label">Difficulty</label>
                   <select className="cj-input form-select" value={form.difficulty} onChange={set('difficulty')}>
@@ -134,7 +124,6 @@ export default function AdminPage({ toast }) {
                   </select>
                 </div>
 
-                {/* Description */}
                 <div className="col-12">
                   <label className="cj-label">Problem Description *</label>
                   <textarea
@@ -147,7 +136,6 @@ export default function AdminPage({ toast }) {
                   />
                 </div>
 
-                {/* Constraints */}
                 <div className="col-12">
                   <label className="cj-label">Constraints</label>
                   <textarea
@@ -160,7 +148,6 @@ export default function AdminPage({ toast }) {
                   />
                 </div>
 
-                {/* Sample Test Cases */}
                 <div className="col-12">
                   <div
                     className="rounded-2 p-3"
@@ -200,7 +187,6 @@ export default function AdminPage({ toast }) {
                   </div>
                 </div>
 
-                {/* Hidden Test Cases */}
                 <div className="col-12">
                   <div className="hidden-section">
                     <div className="d-flex align-items-center gap-2 mb-3">
@@ -237,7 +223,6 @@ export default function AdminPage({ toast }) {
                   </div>
                 </div>
 
-                {/* Limits + Points */}
                 <div className="col-12 col-sm-4">
                   <label className="cj-label">Time Limit (ms)</label>
                   <input className="cj-input form-control" type="number" value={form.timeLimitMs} onChange={set('timeLimitMs')} min={100} max={10000} />
@@ -251,7 +236,6 @@ export default function AdminPage({ toast }) {
                   <input className="cj-input form-control" type="number" value={form.points} onChange={set('points')} min={10} max={1000} />
                 </div>
 
-                {/* Actions */}
                 <div className="col-12 d-flex gap-2 pt-1 flex-wrap">
                   <button type="submit" className="btn btn-brand d-flex align-items-center gap-2" disabled={submitting}>
                     {submitting ? <><Spinner />Creating…</> : <><i className="bi bi-plus-circle" />Create Problem</>}
@@ -266,11 +250,9 @@ export default function AdminPage({ toast }) {
           </div>
         </div>
 
-        {/* ── Sidebar ── */}
         <div className="col-12 col-lg-4">
           <div className="d-flex flex-column gap-3">
 
-            {/* Live stats */}
             <div className="cj-card overflow-hidden">
               <div className="cj-card-header">
                 <i className="bi bi-bar-chart" style={{ color: 'var(--cj-brand)' }} />
@@ -288,7 +270,6 @@ export default function AdminPage({ toast }) {
               </div>
             </div>
 
-            {/* Docker config info */}
             <div className="cj-card overflow-hidden">
               <div className="cj-card-header">
                 <i className="bi bi-box" style={{ color: 'var(--cj-blue)' }} />
@@ -311,7 +292,6 @@ export default function AdminPage({ toast }) {
               </div>
             </div>
 
-            {/* Tip */}
             <div className="cj-card p-3" style={{ border: '1px solid rgba(79,110,247,.2)', background: 'rgba(79,110,247,.05)' }}>
               <p style={{ fontSize: '0.8rem', color: 'var(--cj-text-dim)', margin: 0, lineHeight: 1.7 }}>
                 <i className="bi bi-info-circle me-2" style={{ color: 'var(--cj-brand)' }} />

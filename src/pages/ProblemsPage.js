@@ -1,4 +1,3 @@
-// src/pages/ProblemsPage.js
 import React, { useState, useEffect, useCallback } from 'react';
 import { DiffBadge, TopicTag, EmptyState, PageHeader, ProgressBar, Spinner } from '../components/UI';
 import { problemAPI, getErrorMessage } from '../services/api';
@@ -21,14 +20,12 @@ export default function ProblemsPage({ onOpenProblem }) {
   const [diff, setDiff] = useState('all');
   const [tag, setTag] = useState('all');
 
-  // Debounce search input
   const [debouncedSearch, setDebouncedSearch] = useState('');
   useEffect(() => {
     const t = setTimeout(() => setDebouncedSearch(search), 350);
     return () => clearTimeout(t);
   }, [search]);
 
-  // Reset to page 0 on filter change
   useEffect(() => { setPage(0); }, [debouncedSearch, diff, tag]);
 
   const fetchProblems = useCallback(async () => {
@@ -43,8 +40,6 @@ export default function ProblemsPage({ onOpenProblem }) {
         ...(debouncedSearch && { search: debouncedSearch }),
       };
       const res = await problemAPI.getAll(params);
-      // Backend returns Page<ProblemSummaryResponse>:
-      // { content: [], totalElements, totalPages, number }
       const data = res.data;
       setProblems(data.content || []);
       setTotal(data.totalElements || 0);
@@ -57,7 +52,6 @@ export default function ProblemsPage({ onOpenProblem }) {
 
   useEffect(() => { fetchProblems(); }, [fetchProblems]);
 
-  // Compute stats from current loaded problems (backend provides solvedByCurrentUser)
   const solved = problems.filter((p) => p.solvedByCurrentUser).length;
   const pct = total > 0 ? Math.round((solved / Math.max(problems.length, 1)) * 100) : 0;
 
@@ -68,7 +62,6 @@ export default function ProblemsPage({ onOpenProblem }) {
   const hardT = problems.filter((p) => p.difficulty === 'HARD').length;
   const hardS = problems.filter((p) => p.difficulty === 'HARD' && p.solvedByCurrentUser).length;
 
-  // Adapter: backend uses uppercase difficulty, frontend badge expects lowercase
   const adapt = (p) => ({
     ...p,
     diff: (p.difficulty || '').toLowerCase(),
@@ -81,7 +74,6 @@ export default function ProblemsPage({ onOpenProblem }) {
     <div className="container-fluid px-3 px-md-4 py-4">
       <PageHeader title="Problems" subtitle={`${total} problems · ${isLoggedIn ? `${solved} solved on this page` : 'sign in to track progress'}`} />
 
-      {/* Progress card */}
       {isLoggedIn && problems.length > 0 && (
         <div className="cj-card p-3 mb-3">
           <div className="row align-items-center g-3">
@@ -112,9 +104,7 @@ export default function ProblemsPage({ onOpenProblem }) {
         </div>
       )}
 
-      {/* Toolbar */}
       <div className="d-flex align-items-start gap-2 mb-3 flex-wrap">
-        {/* Search */}
         <div className="position-relative" style={{ flex: '1 1 200px', maxWidth: 340 }}>
           <i className="bi bi-search position-absolute" style={{ left: 12, top: '50%', transform: 'translateY(-50%)', color: 'var(--cj-muted)', fontSize: 13, pointerEvents: 'none' }} />
           <input
@@ -126,7 +116,6 @@ export default function ProblemsPage({ onOpenProblem }) {
           />
         </div>
 
-        {/* Difficulty chips */}
         <div className="d-flex gap-1 flex-wrap">
           {DIFF_OPTS.map((d) => (
             <button
@@ -140,7 +129,6 @@ export default function ProblemsPage({ onOpenProblem }) {
           ))}
         </div>
 
-        {/* Tag chips */}
         <div className="d-flex gap-1 flex-wrap">
           {TAG_OPTS.map((t) => (
             <button
@@ -155,7 +143,6 @@ export default function ProblemsPage({ onOpenProblem }) {
         </div>
       </div>
 
-      {/* Error */}
       {error && (
         <div className="cj-card p-3 mb-3 d-flex align-items-center gap-2" style={{ border: '1px solid rgba(240,80,96,.3)' }}>
           <i className="bi bi-exclamation-triangle-fill" style={{ color: 'var(--cj-red)' }} />
@@ -164,7 +151,6 @@ export default function ProblemsPage({ onOpenProblem }) {
         </div>
       )}
 
-      {/* Table */}
       <div className="cj-card overflow-hidden">
         {loading ? (
           <div className="d-flex align-items-center justify-content-center gap-3 py-5" style={{ color: 'var(--cj-muted)' }}>
@@ -238,7 +224,6 @@ export default function ProblemsPage({ onOpenProblem }) {
         )}
       </div>
 
-      {/* Pagination */}
       {!loading && total > PAGE_SIZE && (
         <div className="d-flex justify-content-center align-items-center gap-2 mt-3">
           <button

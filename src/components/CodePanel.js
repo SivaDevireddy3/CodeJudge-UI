@@ -1,4 +1,3 @@
-// src/components/CodePanel.js
 import React, { useRef } from 'react';
 import { Spinner } from './UI';
 import Console from './Console';
@@ -11,7 +10,6 @@ export default function CodePanel({
   const ref = useRef(null);
 
   const handleKeyDown = (e) => {
-    // Tab inserts 4 spaces instead of switching focus
     if (e.key === 'Tab') {
       e.preventDefault();
       const start = e.target.selectionStart;
@@ -19,7 +17,6 @@ export default function CodePanel({
       const spaces = '    ';
       const newVal = code.slice(0, start) + spaces + code.slice(end);
       onCodeChange(newVal);
-      // Restore cursor position after state update
       setTimeout(() => {
         if (ref.current) {
           ref.current.selectionStart = start + 4;
@@ -51,7 +48,6 @@ export default function CodePanel({
 
   return (
     <div className="code-panel">
-      {/* Toolbar */}
       <div className="code-toolbar">
         <select
           className="lang-select"
@@ -90,7 +86,6 @@ export default function CodePanel({
         </div>
       </div>
 
-      {/* Code textarea */}
       <div className="code-area-wrap">
         <textarea
           ref={ref}
@@ -106,10 +101,8 @@ export default function CodePanel({
         />
       </div>
 
-      {/* Console */}
       <Console results={results} running={running} submitting={submitting} />
 
-      {/* Submit bar */}
       <div className="submit-bar">
         <button
           className="btn btn-outline-cj btn-sm d-flex align-items-center gap-2"

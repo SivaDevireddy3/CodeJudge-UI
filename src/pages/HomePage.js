@@ -1,4 +1,3 @@
-// src/pages/HomePage.js
 import React from 'react';
 
 const features = [
@@ -51,7 +50,6 @@ export default function HomePage({ onNavigate }) {
               </button>
             </div>
 
-            {/* Feature chips */}
             <div className="d-flex gap-2 justify-content-center flex-wrap mb-5">
               {features.map((f) => (
                 <div key={f.label} className="feature-chip">
@@ -61,7 +59,6 @@ export default function HomePage({ onNavigate }) {
               ))}
             </div>
 
-            {/* Stats */}
             <div style={{ borderTop: '1px solid var(--cj-border)', paddingTop: '2.5rem' }}>
               <div className="row g-3">
                 {stats.map((s) => (

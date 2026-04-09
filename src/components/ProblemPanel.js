@@ -1,4 +1,3 @@
-// src/components/ProblemPanel.js
 import React, { useState, useEffect } from 'react';
 import { DiffBadge, TopicTag, VerdictBadge, Spinner } from './UI';
 import { problemAPI, submissionAPI, getErrorMessage } from '../services/api';
@@ -11,11 +10,9 @@ export default function ProblemPanel({ problem }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // My submissions for this problem
   const [mySubs, setMySubs] = useState([]);
   const [subsLoading, setSubsLoading] = useState(false);
 
-  // Fetch problem detail on mount / problem change
   useEffect(() => {
     if (!problem?.id) return;
     setLoading(true);
@@ -28,13 +25,11 @@ export default function ProblemPanel({ problem }) {
       .finally(() => setLoading(false));
   }, [problem?.id]);
 
-  // Fetch submissions when switching to the subs tab
   useEffect(() => {
     if (tab !== 'subs' || !isLoggedIn) return;
     setSubsLoading(true);
     submissionAPI.getMine(0, 20)
       .then((res) => {
-        // Filter to this problem only
         const all = res.data.content || res.data || [];
         setMySubs(all.filter((s) => s.problemId === problem?.id));
       })
@@ -54,7 +49,6 @@ export default function ProblemPanel({ problem }) {
 
   return (
     <div className="prob-panel">
-      {/* Tabs */}
       <div className="prob-panel-tabs">
         {tabs.map((t) => (
           <button
@@ -68,10 +62,8 @@ export default function ProblemPanel({ problem }) {
         ))}
       </div>
 
-      {/* Body */}
       <div className="prob-panel-body">
 
-        {/* ── Description tab ── */}
         {tab === 'desc' && (
           <>
             {loading && (
@@ -107,13 +99,11 @@ export default function ProblemPanel({ problem }) {
                   )}
                 </div>
 
-                {/* Description */}
                 <div
                   style={{ fontSize: '0.875rem', lineHeight: 1.85, color: 'var(--cj-text-dim)' }}
                   dangerouslySetInnerHTML={{ __html: (p.description || '').replace(/\n/g, '<br/>') }}
                 />
 
-                {/* Sample test cases */}
                 {(p.sampleTestCases || []).map((tc, i) => (
                   <div
                     key={i}
@@ -146,7 +136,6 @@ export default function ProblemPanel({ problem }) {
                   </div>
                 ))}
 
-                {/* Constraints */}
                 {p.constraints && (
                   <div
                     className="rounded-2 p-3 mt-3"
@@ -164,7 +153,6 @@ export default function ProblemPanel({ problem }) {
           </>
         )}
 
-        {/* ── Submissions tab ── */}
         {tab === 'subs' && (
           <div>
             {!isLoggedIn && (
