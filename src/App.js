@@ -30,6 +30,7 @@ function AppInner() {
 
     useEffect(() => {
         registerNavigate(navigate);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const openProblem = (problem) => {
