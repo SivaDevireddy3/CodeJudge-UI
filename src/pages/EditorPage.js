@@ -1,52 +1,139 @@
+// src/pages/EditorPage.js
 import React, { useState } from 'react';
 import { DiffBadge, TopicTag } from '../components/UI';
 import ProblemPanel from '../components/ProblemPanel';
 import CodePanel from '../components/CodePanel';
-import { PROBLEMS, STARTER_CODE } from '../data/mockData';
+import { submissionAPI, getErrorMessage } from '../services/api';
+import { useAuth } from '../context/AuthContext';
+import { STARTER_CODE } from '../data/mockData';
 
-export default function EditorPage({ problem, onBack, toast }) {
-  const p = problem || PROBLEMS[0];
+// Language enum values the backend expects
+const LANG_MAP = {
+  java: 'JAVA',
+  python: 'PYTHON',
+  cpp: 'CPP',
+  javascript: 'JAVASCRIPT',
+};
+
+export default function EditorPage({ problem, onBack, toast, onNavigate }) {
+  const { isLoggedIn } = useAuth();
+
+  const p = problem || {};
 
   const [lang, setLang] = useState('java');
-  const [code, setCode] = useState(STARTER_CODE.java);
+  const [code, setCode] = useState(STARTER_CODE.java || '');
   const [running, setRunning] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [results, setResults] = useState(null);
 
-  const changeLang = l => {
+  const diff = (p.difficulty || p.diff || '').toLowerCase();
+  const tag = (p.topic || p.tag || '').toLowerCase();
+
+  const changeLang = (l) => {
     setLang(l);
     setCode(STARTER_CODE[l] || '');
     setResults(null);
   };
 
-  const simulate = async isSubmit => {
-    if (isSubmit) setSubmitting(true); else setRunning(true);
+  // "Run" uses the same submit endpoint — backend judges against all test cases.
+  // We show a lightweight "running" UX here and display the result.
+  const handleRun = async () => {
+    if (!isLoggedIn) {
+      toast.error('Please sign in to run code.');
+      onNavigate('login');
+      return;
+    }
+    if (!p.id) {
+      toast.error('No problem loaded.');
+      return;
+    }
+
+    setRunning(true);
     setResults(null);
 
-    // Simulate network + judge delay
-    await new Promise(r => setTimeout(r, 1200 + Math.random() * 900));
+    try {
+      const res = await submissionAPI.submit({
+        problemId: p.id,
+        code,
+        language: LANG_MAP[lang] || lang.toUpperCase(),
+      });
 
-    const pool = isSubmit ? ['AC', 'AC', 'AC', 'WA', 'TLE', 'RE'] : ['AC', 'AC', 'WA'];
-    const verdict = pool[Math.floor(Math.random() * pool.length)];
-    const ms = `${Math.floor(20 + Math.random() * 100)}ms`;
-    const mb = `${(38 + Math.random() * 14).toFixed(1)} MB`;
+      const s = res.data;
+      // Display result as a single row in the console
+      setResults([
+        {
+          tc: 'Run result',
+          verdict: s.verdict,
+          time: s.executionTimeMs != null ? `${s.executionTimeMs}ms` : '—',
+          mem: s.memoryUsedMb != null ? `${s.memoryUsedMb} MB` : '—',
+        },
+      ]);
 
-    setResults([
-      { tc: 'Test Case 1', verdict, time: ms, mem: mb },
-      ...(isSubmit ? [
-        { tc: 'Test Case 2', verdict: verdict === 'AC' ? 'AC' : 'WA', time: ms, mem: mb },
-        { tc: 'Test Case 3 (hidden)', verdict: verdict === 'AC' ? 'AC' : 'TLE', time: ms, mem: mb },
-      ] : []),
-    ]);
+      if (s.verdict === 'AC') toast.success('✓ Correct! All test cases passed.');
+      else if (s.verdict === 'WA') toast.error(`✗ Wrong Answer${s.failedTestCase ? ` on test case ${s.failedTestCase}` : ''}.`);
+      else if (s.verdict === 'TLE') toast.warning('⏱ Time Limit Exceeded.');
+      else if (s.verdict === 'CE') toast.error('⚠ Compile Error — check your code.');
+      else if (s.verdict === 'RE') toast.error(`⚠ Runtime Error${s.errorMessage ? ': ' + s.errorMessage.slice(0, 80) : ''}.`);
+      else toast.info(`Result: ${s.verdict}`);
 
-    if (isSubmit) {
-      setSubmitting(false);
-      if (verdict === 'AC') toast.success('✓ Accepted! All test cases passed.');
-      else if (verdict === 'WA') toast.error('✗ Wrong Answer on some test cases.');
-      else if (verdict === 'TLE') toast.warning('⏱ Time Limit Exceeded.');
-      else toast.error('⚠ Runtime Error.');
-    } else {
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    } finally {
       setRunning(false);
+    }
+  };
+
+  const handleSubmit = async () => {
+    if (!isLoggedIn) {
+      toast.error('Please sign in to submit.');
+      onNavigate('login');
+      return;
+    }
+    if (!p.id) {
+      toast.error('No problem loaded.');
+      return;
+    }
+
+    setSubmitting(true);
+    setResults(null);
+
+    try {
+      const res = await submissionAPI.submit({
+        problemId: p.id,
+        code,
+        language: LANG_MAP[lang] || lang.toUpperCase(),
+      });
+
+      const s = res.data;
+
+      // Show a result row per test case if failedTestCase is available
+      const rows = [];
+      const total = s.failedTestCase || 1;
+      for (let i = 1; i <= (s.failedTestCase || 1); i++) {
+        rows.push({
+          tc: `Test Case ${i}${i === s.failedTestCase && s.verdict !== 'AC' ? ' ✗' : ''}`,
+          verdict: i < total ? 'AC' : s.verdict,
+          time: s.executionTimeMs != null ? `${s.executionTimeMs}ms` : '—',
+          mem: s.memoryUsedMb != null ? `${s.memoryUsedMb} MB` : '—',
+        });
+      }
+      if (s.verdict === 'AC') {
+        rows.length = 0;
+        rows.push({ tc: 'All test cases', verdict: 'AC', time: `${s.executionTimeMs || 0}ms`, mem: `${s.memoryUsedMb || 0} MB` });
+      }
+      setResults(rows);
+
+      if (s.verdict === 'AC') toast.success('🎉 Accepted! All test cases passed.');
+      else if (s.verdict === 'WA') toast.error(`✗ Wrong Answer on test case ${s.failedTestCase || '?'}.`);
+      else if (s.verdict === 'TLE') toast.warning('⏱ Time Limit Exceeded.');
+      else if (s.verdict === 'CE') toast.error('⚠ Compile Error.');
+      else if (s.verdict === 'RE') toast.error(`⚠ Runtime Error${s.errorMessage ? ': ' + s.errorMessage.slice(0, 80) : ''}.`);
+      else toast.info(`Verdict: ${s.verdict}`);
+
+    } catch (err) {
+      toast.error(getErrorMessage(err));
+    } finally {
+      setSubmitting(false);
     }
   };
 
@@ -55,15 +142,18 @@ export default function EditorPage({ problem, onBack, toast }) {
       {/* Top bar */}
       <div className="editor-topbar">
         <button className="btn btn-outline-cj btn-sm py-0" onClick={onBack}>
-          <i className="bi bi-arrow-left me-1"></i>Problems
+          <i className="bi bi-arrow-left me-1" />Problems
         </button>
         <span style={{ color: 'var(--cj-muted)', fontSize: 13 }}>/</span>
-        <span className="hide-sm" style={{ fontSize: '0.875rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          {p.num}. {p.title}
+        <span
+          className="hide-sm"
+          style={{ fontSize: '0.875rem', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap', flex: 1, minWidth: 0 }}
+        >
+          {p.id}. {p.title}
         </span>
-        <div className="ms-auto d-flex gap-2">
-          <DiffBadge diff={p.diff} />
-          <TopicTag tag={p.tag} />
+        <div className="ms-auto d-flex gap-2 flex-shrink-0">
+          {diff && <DiffBadge diff={diff} />}
+          {tag && <TopicTag tag={tag} />}
         </div>
       </div>
 
@@ -75,8 +165,8 @@ export default function EditorPage({ problem, onBack, toast }) {
           onLangChange={changeLang}
           code={code}
           onCodeChange={setCode}
-          onRun={() => simulate(false)}
-          onSubmit={() => simulate(true)}
+          onRun={handleRun}
+          onSubmit={handleSubmit}
           running={running}
           submitting={submitting}
           results={results}
